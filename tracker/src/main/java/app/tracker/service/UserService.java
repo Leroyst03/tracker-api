@@ -19,6 +19,10 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public void registerUser(UserRequest user) {
+        if(repoUser.existsByEmail(user.getEmail())) {
+            throw new HttpException(HttpStatus.BAD_REQUEST, "El usuario ya esta registrado");
+        }
+        
         User newUser = new User();
 
         newUser.setEmail(user.getEmail());
